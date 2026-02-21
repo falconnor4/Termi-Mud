@@ -19,10 +19,15 @@ def init_colors():
     ):
         curses.init_pair(i + 1, color, curses.COLOR_BLACK)
 
-    for i in range(10, 16):
-        intensity = max(0, min(1000, int(1000 * (16 - i) / 6)))
-        curses.init_color(i + 10, intensity, intensity, intensity)
-        curses.init_pair(i, i + 10, curses.COLOR_BLACK)
+    if curses.can_change_color():
+        for i in range(10, 16):
+            intensity = max(0, min(1000, int(1000 * (16 - i) / 6)))
+            curses.init_color(i + 10, intensity, intensity, intensity)
+            curses.init_pair(i, i + 10, curses.COLOR_BLACK)
+    else:
+        # Fallback: use standard white on black with varying attributes
+        for i in range(10, 16):
+            curses.init_pair(i, curses.COLOR_WHITE, curses.COLOR_BLACK)
 
 
 # noinspection PyBroadException
